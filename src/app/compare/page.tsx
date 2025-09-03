@@ -24,7 +24,7 @@ export default function ComparePage() {
     const product = availableProducts.find(p => p.model === productModel);
     if (product) {
       const newSelectedProducts = [...selectedProducts];
-      newSelectedProducts[index] = product;
+      newSelectedProducts[index] = product as EAProductType;
       setSelectedProducts(newSelectedProducts);
     }
   };

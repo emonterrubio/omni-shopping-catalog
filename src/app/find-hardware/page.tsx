@@ -60,7 +60,7 @@ export default function FindHardwarePage() {
         <div className="mb-8">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Recommended for You</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {hardwareData.slice(0, 8).map((product: EAProductType, index: number) => (
+            {hardwareData.slice(0, 8).map((product: any, index: number) => (
               <ProductCard
                 key={`${product.manufacturer}-${product.model}-${index}`}
                 product={{

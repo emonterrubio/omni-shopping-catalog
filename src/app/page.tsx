@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <ITStorefront
       categories={categories}
-      products={hardwareData}
+      products={hardwareData as any}
       quickActions={quickActions}
       eligibilityData={eligibilityData}
     />
