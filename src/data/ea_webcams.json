@@ -1,0 +1,30 @@
+[
+  {
+    "manufacturer": "Logitech",
+    "model": "C920S PRO",
+    "category": "Webcam",
+    "price_usd": 65,
+    "cdw_price_cad": 85.5,
+    "cdw_canada_mfg_number": "960-001257",
+    "resolution": "3 MegaPixel, 1080p FHD @30fps, 720p HD @30fps",
+    "windows": "No",
+    "microphone": "Yes (Single Stereo)",
+    "connectivity": "USB Type-A",
+    "description": "Basic webcam for a high-quality video experience when using a desktop computer or a laptop with its lid closed.",
+    "image": "/images/logitech_c920s_pro.png"
+  },
+  {
+    "manufacturer": "Logitech",
+    "model": "Brio",
+    "category": "Webcam",
+    "price_usd": 165,
+    "cdw_price_cad": 193.66,
+    "cdw_canada_mfg_number": "960-001493",
+    "resolution": "13 MegaPixel, 4K UltraHD @30fps, 1080p FHD @60fps, 720p HD @90fps",
+    "windows": "Yes",
+    "microphone": "Yes (Dual omni-directional)",
+    "connectivity": "USB Type-A/C",
+    "description": "Premium webcam for a premium 4K video experience, ideal for desktops or closed laptops. Includes Windows Hello support for secure, face-recognition based passwordless login.",
+    "image": "/images/logitech_brio.png"
+  }
+]
