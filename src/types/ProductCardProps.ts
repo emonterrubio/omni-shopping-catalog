@@ -4,6 +4,7 @@ export interface ProductCardProps {
   category: string;
   description?: string;
   price_usd: number;
+  price_cad?: number;
   // For backward compatibility, add these computed properties
   brand?: string;
   price?: number;

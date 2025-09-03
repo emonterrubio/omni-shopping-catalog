@@ -34,6 +34,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
   // Use manufacturer as brand for EA products
   const brand = product.manufacturer || product.brand || 'Unknown';
   const price = product.price_usd || product.price || 0;
+  const priceCad = product.price_cad || 0;
   const image = product.image || PLACEHOLDER_IMAGE;
 
   console.log("ProductCard brand:", brand);
@@ -94,8 +95,15 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
         {/* Description and Price */}
         <div className="space-y-2 pb-4 flex-1">
           {(product.card_description || product.description) && <div className="text-gray-700 text-base leading-tight">{product.card_description || product.description}</div>}
-          <div className="text-xl font-semibold text-gray-900 mt-2">
-            ${price.toLocaleString()}<span className="text-sm font-normal text-gray-500"> USD</span>
+          <div>
+            <div className="text-xl font-semibold text-gray-900">
+              ${price.toLocaleString()}<span className="text-sm font-normal text-gray-500"> USD</span>
+            </div>
+            {priceCad > 0 && (
+              <div className="text-xl font-semibold text-gray-900">
+                ${priceCad.toLocaleString()}<span className="text-sm font-normal text-gray-500"> CAD</span>
+              </div>
+            )}
           </div>
         </div>
         {/* <div className="flex items-center justify-between mb-4">

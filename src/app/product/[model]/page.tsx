@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { hardwareData } from "../../../data/eaProductData";
@@ -17,6 +17,7 @@ import { RequestHardwareBanner } from '@/components/product/RequestHardwareBanne
 import { ProductComparisonList } from '@/components/product/ProductComparisonList';
 import { SupportBanner } from '@/components/product/SupportBanner';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { ChevronDownIcon } from '@heroicons/react/16/solid'
 
 function getCategoryPlural(category: string): string {
   // Convert category to plural form
@@ -58,7 +59,6 @@ function getProductSpecs(product: any) {
   specs.push({ label: "Manufacturer", value: product.manufacturer });
   specs.push({ label: "Model", value: product.model });
   specs.push({ label: "Category", value: product.category });
-  specs.push({ label: "Price", value: `$${(product as any).price_usd || (product as any).ea_estimated_price_usd}` });
   
 
   
@@ -146,6 +146,18 @@ function getProductSpecs(product: any) {
       if ((product as any).microphone) specs.push({ label: "Microphone", value: (product as any).microphone });
       if ((product as any).connectivity) specs.push({ label: "Connectivity", value: (product as any).connectivity });
       break;
+      
+    case "mouse":
+    case "keyboard":
+    case "mouse & keyboard":
+    case "trackpad":
+      if ((product as any).connectivity) specs.push({ label: "Connectivity", value: (product as any).connectivity });
+      if ((product as any).keyboard_size_layout) specs.push({ label: "Keyboard Layout", value: (product as any).keyboard_size_layout });
+      if ((product as any).mouse_buttons) specs.push({ label: "Mouse Buttons", value: (product as any).mouse_buttons });
+      if ((product as any).power) specs.push({ label: "Power", value: (product as any).power });
+      if ((product as any).intended_for) specs.push({ label: "Intended For", value: (product as any).intended_for });
+      if ((product as any).not_suitable_for) specs.push({ label: "Not Suitable For", value: (product as any).not_suitable_for });
+      break;
   }
   
   return specs;
@@ -165,16 +177,49 @@ export default function ProductDetailPage() {
   const product = findProductByModel(model);
   const specs = product ? getProductSpecs(product) : [];
 
-  // --- Comparison logic ---
+  // --- Comparison logic with dropdown functionality ---
+  const [selectedComparisonProducts, setSelectedComparisonProducts] = useState<any[]>([]);
+  
   // Use only the hardware data for comparison
   const others = hardwareData.filter(p => p.model !== product?.model);
   
-  // 1. Find all same-brand, same-category products (excluding current)
-  let sameBrand = others.filter(p => p.category.toLowerCase() === product?.category?.toLowerCase() && p.manufacturer === product?.manufacturer);
-  // 2. Find all same-category, other-brand products
-  let otherBrand = others.filter(p => p.category.toLowerCase() === product?.category?.toLowerCase() && p.manufacturer !== product?.manufacturer);
-  // Compose final comparisonProducts
-  let comparisonProducts = [...sameBrand, ...otherBrand].slice(0, 3);
+  // Available products for dropdown (same category as current product)
+  const availableProducts = others.filter(p => p.category.toLowerCase() === product?.category?.toLowerCase());
+  
+  // Default comparison products (same logic as before)
+  const defaultComparisonProducts = (() => {
+    // 1. Find all same-brand, same-category products (excluding current)
+    let sameBrand = others.filter(p => p.category.toLowerCase() === product?.category?.toLowerCase() && p.manufacturer === product?.manufacturer);
+    // 2. Find all same-category, other-brand products
+    let otherBrand = others.filter(p => p.category.toLowerCase() === product?.category?.toLowerCase() && p.manufacturer !== product?.manufacturer);
+    // Compose final comparisonProducts
+    return [...sameBrand, ...otherBrand].slice(0, 3);
+  })();
+
+  // Initialize selected products with default ones
+  useEffect(() => {
+    if (defaultComparisonProducts.length > 0 && selectedComparisonProducts.length === 0) {
+      setSelectedComparisonProducts(defaultComparisonProducts);
+    }
+  }, [defaultComparisonProducts, selectedComparisonProducts.length]);
+
+  const handleComparisonProductChange = (index: number, modelValue: string) => {
+    if (modelValue === "") {
+      // Remove the product at this index
+      const newSelected = selectedComparisonProducts.filter((_, i) => i !== index);
+      setSelectedComparisonProducts(newSelected);
+    } else {
+      const product = availableProducts.find(p => p.model === modelValue);
+      if (product) {
+        const newSelected = [...selectedComparisonProducts];
+        newSelected[index] = product;
+        setSelectedComparisonProducts(newSelected);
+      }
+    }
+  };
+
+  // Use selected products for comparison, fallback to default
+  const comparisonProducts = selectedComparisonProducts.length > 0 ? selectedComparisonProducts : defaultComparisonProducts;
 
   const handleBackClick = () => {
     // Use browser back navigation if there's history, otherwise fallback to home
@@ -274,20 +319,52 @@ export default function ProductDetailPage() {
         <RequestHardwareBanner />
         {/* --- Comparison Cards --- */}
           <div ref={compareSectionRef}>
-            <ProductComparisonList products={comparisonProducts.map(p => ({
-              ...p, // Spread all product properties
-              brand: p.manufacturer,
-              model: p.model,
-              category: p.category,
-              description: (p as any).description || `${p.manufacturer} ${p.model}`,
-              card_description: (p as any).intended_for ? 
-                `${(p as any).description || `${p.manufacturer} ${p.model}`} Intended for ${(p as any).intended_for}.` : 
-                (p as any).description || `${p.manufacturer} ${p.model}`,
-              price: (p as any).price_usd || (p as any).ea_estimated_price_usd,
-              image: p.image || `/images/${p.manufacturer.toLowerCase()}_${p.model.toLowerCase().replace(/\s+/g, "_")}.png`,
-              features: (p as any).description || `${p.manufacturer} ${p.model}`,
-              recommended: true
-            }))} getProductSpecs={(product: any) => getProductSpecs(product)} />
+            <h2 className="text-2xl font-medium mt-8 mb-4">Compare with similar items</h2>
+            
+            {/* Product Selection Dropdowns */}
+            {availableProducts.length > 0 && (
+              <div className="mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {[0, 1, 2].map((index) => (
+                    <div key={index} className="relative">
+                      <select
+                        value={selectedComparisonProducts[index]?.model || ""}
+                        onChange={(e) => handleComparisonProductChange(index, e.target.value)}
+                        className="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                      >
+                        <option value="">Select a product...</option>
+                        {availableProducts.map((product) => (
+                          <option key={product.model} value={product.model}>
+                            {product.manufacturer} {product.model}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDownIcon
+                        aria-hidden="true"
+                        className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {comparisonProducts.length > 0 && (
+              <ProductComparisonList products={comparisonProducts.map(p => ({
+                ...p, // Spread all product properties
+                brand: p.manufacturer,
+                model: p.model,
+                category: p.category,
+                description: (p as any).description || `${p.manufacturer} ${p.model}`,
+                card_description: (p as any).intended_for ? 
+                  `${(p as any).description || `${p.manufacturer} ${p.model}`} Intended for ${(p as any).intended_for}.` : 
+                  (p as any).description || `${p.manufacturer} ${p.model}`,
+                price: (p as any).price_usd || (p as any).ea_estimated_price_usd,
+                image: p.image || `/images/${p.manufacturer.toLowerCase()}_${p.model.toLowerCase().replace(/\s+/g, "_")}.png`,
+                features: (p as any).description || `${p.manufacturer} ${p.model}`,
+                recommended: true
+              }))} getProductSpecs={(product: any) => getProductSpecs(product)} noBackground={true} />
+            )}
           </div>
         
         <SupportBanner />

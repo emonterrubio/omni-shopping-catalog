@@ -47,7 +47,12 @@ export function ProductInfoPanel({
         <h1 className="text-4xl lg:text-5xl font-regular tracking-normal">{title}</h1>
       </div>
       {/* price */}
-      <div className="text-2xl lg:text-3xl font-regular">${price ? price.toLocaleString() : '0'}<span className="text-base lg:text-lg font-normal text-gray-500"> USD</span></div>
+      <div className="space-y-1">
+        <div className="text-2xl lg:text-3xl font-regular">${price ? price.toLocaleString() : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> USD</span></div>
+        {price_cad && price_cad > 0 && (
+          <div className="text-2xl lg:text-3xl font-regular">${price_cad.toLocaleString()}<span className="text-sm lg:text-base font-normal text-gray-500"> CAD</span></div>
+        )}
+      </div>
       {/* Description */}
       <div className="text-base text-gray-800 leading-snug">{description}</div>
       <div>

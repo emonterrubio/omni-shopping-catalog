@@ -96,7 +96,10 @@ export function ComparisonProductCard({
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div> */}
         {/* Price */}
-        <div className="text-2xl font-semibold">${price.toLocaleString()}<span className="text-sm text-gray-500 font-normal"> USD</span></div>
+        <div className="space-y-1">
+          <div className="text-2xl font-semibold">${price.toLocaleString()}<span className="text-sm text-gray-500 font-normal"> USD</span></div>
+          {/* Note: CAD pricing would need to be passed as a prop if available */}
+        </div>
         {/* Add to Cart and View Details buttons */}
         <div className="flex gap-2 w-full pt-4">
           <button 

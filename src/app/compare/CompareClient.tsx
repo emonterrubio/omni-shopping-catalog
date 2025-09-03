@@ -71,17 +71,7 @@ export default function CompareClient() {
                 subFeatures={product.description ? product.description.split(',').map((f: string) => f.trim()) : []}
                 price={product.price_usd}
                 chip={product.cpu || product.os || product.category || ''}
-                specs={[
-                  { label: "Processor", value: product.cpu || '' },
-                  { label: "Memory", value: product.memory || '' },
-                  { label: "Storage", value: product.storage || '' },
-                  { label: "Display", value: product.screen_size || '' },
-                  { label: "Graphics", value: product.gpu || '' },
-                  { label: "Operating System", value: product.os || '' },
-                  { label: "Ports", value: product.ports || '' },
-                  { label: "Battery", value: product.battery_life_description || '' },
-                  { label: "Other", value: product.other || '' },
-                ]}
+                specs={[]}
               />
             </div>
           ))}
