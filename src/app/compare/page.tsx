@@ -16,7 +16,7 @@ export default function ComparePage() {
   // Initialize with first 3 products if none selected
   React.useEffect(() => {
     if (selectedProducts.length === 0 && availableProducts.length >= 3) {
-      setSelectedProducts(availableProducts.slice(0, 3));
+      setSelectedProducts(availableProducts.slice(0, 3) as EAProductType[]);
     }
   }, [availableProducts, selectedProducts.length]);
 
