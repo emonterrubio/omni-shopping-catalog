@@ -1,6 +1,5 @@
 import { CheckCircle, AlertCircle } from "lucide-react";
-import React, { useContext } from "react";
-import { CartContext, CartItem } from "@/components/CartContext";
+import React from "react";
 import Link from "next/link";
 
 interface ComparisonProductCardProps {
@@ -12,6 +11,7 @@ interface ComparisonProductCardProps {
   features: string;
   subFeatures: string[];
   price: number;
+  price_cad?: number;
   chip: string;
   specs: { label: string; value: any }[];
   noBackground?: boolean;
@@ -26,6 +26,7 @@ export function ComparisonProductCard({
   features,
   subFeatures,
   price,
+  price_cad,
   chip,
   specs,
   noBackground = false,
@@ -33,22 +34,8 @@ export function ComparisonProductCard({
   // Split features string into array by comma
   const featureList = features.split(',').map(f => f.trim());
   const isEligible = true;
-  const { addToCart } = useContext(CartContext);
 
-  const handleAddToCart = () => {
-    console.log("[Comparison Debug] Adding to cart:", model, "Price:", price, "Type:", typeof price);
-    const cartItem: CartItem = {
-      model,
-      brand,
-      image,
-      price: price,
-      quantity: 1,
-      recommended: isEligible,
-      description,
-      card_description,
-    };
-    addToCart(cartItem);
-  };
+  // Cart functionality removed
 
   return (
     <div className={`w-full flex flex-col ${noBackground ? '' : 'bg-white rounded-2xl shadow-md'}`}>
@@ -98,19 +85,15 @@ export function ComparisonProductCard({
         {/* Price */}
         <div className="space-y-1">
           <div className="text-2xl font-semibold">${price.toLocaleString()}<span className="text-sm text-gray-500 font-normal"> USD</span></div>
-          {/* Note: CAD pricing would need to be passed as a prop if available */}
+          {price_cad && price_cad > 0 && (
+            <div className="text-2xl font-semibold">${price_cad.toLocaleString()}<span className="text-sm text-gray-500 font-normal"> CAD</span></div>
+          )}
         </div>
-        {/* Add to Cart and View Details buttons */}
-        <div className="flex gap-2 w-full pt-4">
-          <button 
-            className="flex-1 bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-700 transition"
-            onClick={handleAddToCart}
-          >
-            Add to Cart
-          </button>
+        {/* View Details button */}
+        <div className="w-full pt-4">
           <Link
             href={`/product/${encodeURIComponent(model)}`}
-            className="flex-1 bg-blue-50 text-blue-600 rounded-md py-2 font-medium hover:bg-blue-100 transition text-center"
+            className="w-full bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-700 transition text-center block"
           >
             View Details
           </Link>

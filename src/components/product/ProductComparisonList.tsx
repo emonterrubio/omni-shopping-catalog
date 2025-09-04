@@ -9,6 +9,7 @@ interface Product {
   card_description?: string;
   features?: string;
   price: number;
+  price_cad?: number;
   processor?: string;
   category?: string;
   [key: string]: any;
@@ -37,6 +38,7 @@ export function ProductComparisonList({ products, getProductSpecs, noBackground 
             features={p.features || ''}
             subFeatures={p.features ? p.features.split(',').map((f: string) => f.trim()) : []}
             price={p.price}
+            price_cad={p.price_cad}
             chip={p.processor || p.category || ''}
             specs={getProductSpecs ? getProductSpecs(p) : []}
             noBackground={noBackground}

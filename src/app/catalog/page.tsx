@@ -6,7 +6,7 @@ import { PlatformInfoBanner } from "../../components/ui/PlatformInfoBanner";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { Pagination } from "../../components/ui/Pagination";
 import { CatalogSidebar } from "../../components/catalog/CatalogSidebar";
-import { SortAsc, Filter, PackageSearch } from "lucide-react";
+import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Breadcrumb } from "../../components/ui/Breadcrumb";
 
@@ -24,6 +24,7 @@ export default function CatalogPage() {
     recommended: true,
     manufacturer: product.manufacturer,
     price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+    price_cad: (product as any).price_cad,
   }));
 
   // Group products by brand
@@ -173,14 +174,12 @@ export default function CatalogPage() {
         className="mb-4 sm:px-4 lg:px-0"
       />
 
-      <div className="text-left mb-4 sm:px-4 lg:px-0">
+      <div className="text-left mb-8 sm:px-4 lg:px-0">
         <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
           {selectedCategory === "all" ? "All Products" : `All ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`}
         </h1>
         <h4 className="text-base font-base text-gray-800 mb-2">Browse our catalog of products and find the perfect item for your needs.</h4>
       </div>
-
-      <PlatformInfoBanner />
       
       <div className="flex flex-col lg:flex-row">
         {/* Mobile: Filter Panel */}
@@ -190,7 +189,7 @@ export default function CatalogPage() {
             <select
               value={selectedCategory}
               onChange={e => setSelectedCategory(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             >
               <option value="all">All</option>
               {Array.from(new Set(allProducts.map((p: any) => p.category))).sort().map(category => (
@@ -230,36 +229,42 @@ export default function CatalogPage() {
             </div>
             {/* Desktop filter and sort dropdowns */}
             <div className="hidden lg:flex items-center gap-4 ml-auto">
-              <div>
-                <label htmlFor="brand-filter" className="mr-2 text-base font-regular text-gray-700">Filter by:</label>
-                <select
-                  id="brand-filter"
-                  value={selectedBrand}
-                  onChange={e => setSelectedBrand(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">All Brands</option>
-                  {Object.keys(productsByBrand).sort().map((brand) => (
-                    <option key={brand} value={brand}>
-                      {brand} ({brandCounts[brand]})
-                    </option>
-                  ))}
-                </select>
+              <div className="flex items-center gap-2">
+                <label htmlFor="brand-filter" className="text-base font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
+                <div className="relative">
+                  <select
+                    id="brand-filter"
+                    value={selectedBrand}
+                    onChange={e => setSelectedBrand(e.target.value)}
+                    className="appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 min-w-[140px]"
+                  >
+                    <option value="all">All Brands</option>
+                    {Object.keys(productsByBrand).sort().map((brand) => (
+                      <option key={brand} value={brand}>
+                        {brand} ({brandCounts[brand]})
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDownIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+                </div>
               </div>
-              <div>
-                <label htmlFor="sort" className="mr-2 text-base font-regular text-gray-700">Sort by:</label>
-                <select
-                  id="sort"
-                  value={sortOption}
-                  onChange={e => setSortOption(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">All</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="az">A-Z</option>
-                  <option value="za">Z-A</option>
-                </select>
+              <div className="flex items-center gap-2">
+                <label htmlFor="sort" className="text-base font-regular text-gray-700 whitespace-nowrap">Sort by:</label>
+                <div className="relative">
+                  <select
+                    id="sort"
+                    value={sortOption}
+                    onChange={e => setSortOption(e.target.value)}
+                    className="appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 min-w-[140px]"
+                  >
+                    <option value="all">All</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                    <option value="az">A-Z</option>
+                    <option value="za">Z-A</option>
+                  </select>
+                  <ChevronDownIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+                </div>
               </div>
             </div>
             {/* Mobile filter and sort icons */}

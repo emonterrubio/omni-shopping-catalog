@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
-import { CartProvider } from "../components/CartContext";
+// Cart functionality removed
 import { ToastProvider } from "../components/ToastContext";
 import { ToastContainer } from "../components/ui/ToastContainer";
 import { PasswordProtection } from "../components/auth/PasswordProtection";
 import { AUTH_CONFIG } from "../config/auth";
 
 export const metadata: Metadata = {
-  title: "Omni Shopping - IT Equipment Store",
-  description: "Your one-stop shop for IT equipment and accessories",
+  title: "Hardware Catalog - IT Equipment Store",
+  description: "Browse our catalog of IT equipment and accessories",
 };
 
 export default function RootLayout({
@@ -26,10 +26,8 @@ export default function RootLayout({
       <body className="font-sans">
         <PasswordProtection correctPassword={AUTH_CONFIG.ACCESS_PASSWORD}>
           <ToastProvider>
-            <CartProvider>
-              {children}
-              <ToastContainer />
-            </CartProvider>
+            {children}
+            <ToastContainer />
           </ToastProvider>
         </PasswordProtection>
       </body>

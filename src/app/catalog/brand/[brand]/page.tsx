@@ -4,7 +4,7 @@ import { hardwareData } from "@/data/eaProductData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { PlatformInfoBanner } from "@/components/ui/PlatformInfoBanner";
 import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
+// MainNavigation removed - now included in Header
 import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
 import { useState, useRef, useEffect, use } from "react";
@@ -104,7 +104,6 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
-      <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         {/* Breadcrumb Navigation */}
         <Breadcrumb
@@ -228,8 +227,6 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
           </div>
         </div>
         
-        <PlatformInfoBanner />
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {sortedProducts.map((product, idx) => (
             <ProductCard 
@@ -243,6 +240,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
                 features: (product as any).description || '',
                 image: product.image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
                 price_usd: product.price_usd,
+                price_cad: product.price_cad,
                 recommended: false,
               }} 
             />

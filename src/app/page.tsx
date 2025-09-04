@@ -1,13 +1,5 @@
-import { ITStorefront } from "../components/ITStorefront";
-import { categories, quickActions, eligibilityData, hardwareData } from "../data/eaProductData";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
-  return (
-    <ITStorefront
-      categories={categories}
-      products={hardwareData as any}
-      quickActions={quickActions}
-      eligibilityData={eligibilityData}
-    />
-  );
+  redirect('/catalog');
 } 

@@ -99,12 +99,7 @@ export const quickActions = [
     title: 'Compare Products',
     description: 'Compare different hardware options',
   },
-  {
-    id: 3,
-    icon: 'cart',
-    title: 'View Cart',
-    description: 'Check your current selections',
-  },
+  // Cart functionality removed
   {
     id: 4,
     icon: 'help',

@@ -5,8 +5,8 @@ import { hardwareData } from "@/data/eaProductData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ProductCardProps } from "@/types/ProductCardProps";
 import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
-import { ArrowLeft } from "lucide-react";
+// MainNavigation removed - now included in Header
+import { ArrowLeft, ChevronDownIcon } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
@@ -43,6 +43,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
     features: (product as any).description || `${product.manufacturer} ${product.model}`,
     image: product.image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
     price_usd: product.price_usd,
+    price_cad: product.price_cad,
     recommended: false,
   }));
 }
@@ -92,7 +93,6 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
-      <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         {/* Breadcrumb Navigation */}
         <Breadcrumb
@@ -114,34 +114,40 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
             Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
           </div>
           <div className="flex items-center gap-4 ml-auto">
-            <div>
-              <label htmlFor="brand-filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
-              <select
-                id="brand-filter"
-                value={brandFilter}
-                onChange={e => setBrandFilter(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All</option>
-                {brands.map(brand => (
-                  <option key={brand} value={brand}>{brand}</option>
-                ))}
-              </select>
+            <div className="flex items-center gap-2">
+              <label htmlFor="brand-filter" className="text-sm font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
+              <div className="relative">
+                <select
+                  id="brand-filter"
+                  value={brandFilter}
+                  onChange={e => setBrandFilter(e.target.value)}
+                  className="appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-sm text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 min-w-[120px]"
+                >
+                  <option value="all">All</option>
+                  {brands.map(brand => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))}
+                </select>
+                <ChevronDownIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+              </div>
             </div>
-            <div>
-              <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
-              <select
-                id="sort"
-                value={sortOption}
-                onChange={e => setSortOption(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
-              </select>
+            <div className="flex items-center gap-2">
+              <label htmlFor="sort" className="text-sm font-regular text-gray-700 whitespace-nowrap">Sort by:</label>
+              <div className="relative">
+                <select
+                  id="sort"
+                  value={sortOption}
+                  onChange={e => setSortOption(e.target.value)}
+                  className="appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-sm text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 min-w-[120px]"
+                >
+                    <option value="all">All</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="az">A-Z</option>
+                  <option value="za">Z-A</option>
+                </select>
+                <ChevronDownIcon className="absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+              </div>
             </div>
           </div>
         </div>
