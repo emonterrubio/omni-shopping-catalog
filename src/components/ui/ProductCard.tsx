@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
-import { CheckCircle, AlertCircle } from "lucide-react";
+import { CheckCircle, AlertCircle, ShoppingCart } from "lucide-react";
 import { ProductCardProps } from "@/types/ProductCardProps";
+import { useCart } from "@/components/CartContext";
+import { useCurrency } from "@/components/CurrencyContext";
 import Link from "next/link";
 
 const PLACEHOLDER_IMAGE = "https://placehold.co/128x128?text=No+Image";
@@ -25,6 +27,8 @@ function inferCategory(model: string, category: string): string {
 }
 
 export function ProductCard({ product, fromCatalog = false }: { product: ProductCardProps, fromCatalog?: boolean }) {
+  const { addToCart, isInCart } = useCart();
+  const { currency } = useCurrency();
   const category = inferCategory(product.model, product.category);
   // For EA products, we'll consider them all eligible
   const isEligible = true;
@@ -35,10 +39,26 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
   const priceCad = product.price_cad;
   const image = product.image || PLACEHOLDER_IMAGE;
 
+  // Determine which price to display based on selected currency
+  const displayPrice = currency === 'CAD' ? (priceCad || 0) : price;
+  const displayCurrency = currency;
+
   console.log("ProductCard brand:", brand);
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);
 
-  // Cart functionality removed
+  const handleAddToCart = () => {
+    addToCart({
+      id: product.model,
+      model: product.model,
+      name: product.model,
+      brand: brand,
+      category: category,
+      description: product.card_description || product.description,
+      price_usd: price,
+      price_cad: priceCad,
+      image: image,
+    });
+  };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     // Replace broken image with a placeholder
@@ -81,13 +101,8 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           {(product.card_description || product.description) && <div className="text-gray-700 text-base leading-tight">{product.card_description || product.description}</div>}
           <div>
             <div className="text-xl font-bold text-gray-900">
-              ${price.toLocaleString()}<span className="text-sm font-normal text-gray-500"> USD</span>
+              ${displayPrice.toLocaleString()}<span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
             </div>
-            {priceCad && (
-              <div className="text-xl font-bold text-gray-900">
-                ${priceCad.toLocaleString()}<span className="text-sm font-normal text-gray-500"> CAD</span>
-              </div>
-            )}
           </div>
         </div>
         {/* <div className="flex items-center justify-between mb-4">
@@ -102,12 +117,26 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           </div>
         </div> */}
         {/* Action buttons */}
-        <Link
+        <div className="space-y-2">
+          <button
+            onClick={handleAddToCart}
+            className={`w-full px-2 py-2 rounded-md font-medium text-center transition-colors flex items-center justify-center space-x-2 ${
+              isInCart(product.model)
+                ? 'bg-green-600 text-white hover:bg-green-700'
+                : 'bg-heritageBlue text-white hover:bg-blue-700'
+            }`}
+          >
+            <ShoppingCart className="h-4 w-4" />
+            <span>{isInCart(product.model) ? 'Added to Calculator' : 'Add to Calculator'}</span>
+          </button>
+          
+          <Link
             href={fromCatalog ? `/product/${product.model.toLowerCase().replace(/\s+/g, "-")}?from=catalog` : `/product/${product.model.toLowerCase().replace(/\s+/g, "-")}`}
-            className="w-full bg-blue-600 text-white px-2 py-2 hover:bg-blue-700 transition-colors rounded-md font-medium text-center block"
+            className="w-full bg-gray-100 text-gray-700 px-2 py-2 hover:bg-gray-200 transition-colors rounded-md font-medium text-center block"
           >
             View Details
           </Link>
+        </div>
       </div>
     </div>
   );

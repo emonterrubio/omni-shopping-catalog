@@ -8,7 +8,7 @@ import { Pagination } from "../../components/ui/Pagination";
 import { CatalogSidebar } from "../../components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { Breadcrumb } from "../../components/ui/Breadcrumb";
+import { CurrencyToggle } from "../../components/ui/CurrencyToggle";
 
 export default function CatalogPage() {
   // Use the EA product data directly
@@ -165,14 +165,6 @@ export default function CatalogPage() {
 
   return (
     <PageLayout>
-            {/* Breadcrumb Navigation */}
-      <Breadcrumb
-        items={[
-          { label: "Catalog", href: "/catalog" },
-          { label: "All Products", isActive: true }
-        ]}
-        className="mb-4 sm:px-4 lg:px-0"
-      />
 
       <div className="text-left mb-8 sm:px-4 lg:px-0">
         <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
@@ -229,6 +221,7 @@ export default function CatalogPage() {
             </div>
             {/* Desktop filter and sort dropdowns */}
             <div className="hidden lg:flex items-center gap-4 ml-auto">
+              <CurrencyToggle />
               <div className="flex items-center gap-2">
                 <label htmlFor="brand-filter" className="text-base font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
                 <div className="relative">
@@ -269,6 +262,7 @@ export default function CatalogPage() {
             </div>
             {/* Mobile filter and sort icons */}
             <div className="flex lg:hidden items-center gap-2 ml-auto relative">
+              <CurrencyToggle />
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"

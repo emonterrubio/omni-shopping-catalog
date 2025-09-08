@@ -4,6 +4,7 @@ import { Search as SearchIcon } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { MainNavigationClient } from "./MainNavigationClient";
+import { CartIcon } from "../cart/CartIcon";
 
 export function Header() {
   const router = useRouter();
@@ -49,6 +50,9 @@ export function Header() {
               <Link href="/catalog">
                 <img src="/logo/ea_logo_white.svg" alt="Hardware Catalog" className="h-10 object-contain" />
               </Link>
+            </div>
+            <div className="flex items-center space-x-4">
+              <CartIcon />
             </div>
           </div>
         </div>

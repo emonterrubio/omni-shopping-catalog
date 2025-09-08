@@ -21,6 +21,9 @@ export const MainNavigationClient = () => {
             <Link href="/catalog" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/catalog" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
               Hardware Catalog
             </Link>
+            <Link href="/cart" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/cart" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
+              Cost Calculator
+            </Link>
           </div>
           <div className="md:hidden flex items-center justify-end">
             <button
@@ -41,6 +44,12 @@ export const MainNavigationClient = () => {
               className={`block px-4 py-2 text-3xl font-regular text-gray-900 ${pathname === "/catalog" ? "!text-heritageBlue" : ""}`}
             >
               Hardware Catalog
+            </Link>
+            <Link
+              href="/cart"
+              className={`block px-4 py-2 text-3xl font-regular text-gray-900 ${pathname === "/cart" ? "!text-heritageBlue" : ""}`}
+            >
+              Cost Calculator
             </Link>
           </div>
         </div>

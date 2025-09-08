@@ -9,6 +9,7 @@ import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
 import { useState, useRef, useEffect, use } from "react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
+import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 import { EAProductType } from "@/types";
 
 export default function BrandCatalogPage({ params }: { params: Promise<{ brand: string }> }) {
@@ -123,6 +124,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
           <div className="text-base font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
           {/* Desktop filter/sort dropdowns */}
           <div className="hidden md:flex items-center gap-4 ml-auto">
+            <CurrencyToggle />
             <div>
               <label htmlFor="filter" className="mr-2 text-base font-regular text-gray-700">Filter by:</label>
               <select

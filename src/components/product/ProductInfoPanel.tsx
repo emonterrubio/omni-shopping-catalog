@@ -1,5 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
+import { ShoppingCart } from 'lucide-react';
+import { useCart } from '../CartContext';
+import { useCurrency } from '../CurrencyContext';
 
 interface ProductInfoPanelProps {
   brand: string;
@@ -38,6 +41,26 @@ export function ProductInfoPanel({
   // Cart functionality removed
   onCompare,
 }: ProductInfoPanelProps) {
+  const { addToCart, isInCart } = useCart();
+  const { currency } = useCurrency();
+
+  // Determine which price to display based on selected currency
+  const displayPrice = currency === 'CAD' ? (price_cad || 0) : price;
+  const displayCurrency = currency;
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: sku,
+      model: title,
+      name: title,
+      brand: brand,
+      category: category || 'Other',
+      description: description,
+      price_usd: price,
+      price_cad: price_cad,
+      image: '/images/placeholder-product.svg', // You might want to pass the actual image
+    });
+  };
   return (
     <div className="flex flex-col gap-3">
       <div>
@@ -50,10 +73,7 @@ export function ProductInfoPanel({
       </div>
       {/* price */}
       <div className="space-y-1">
-        <div className="text-2xl lg:text-3xl font-regular">${price ? price.toLocaleString() : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> USD</span></div>
-        {price_cad && price_cad > 0 && (
-          <div className="text-2xl lg:text-3xl font-regular">${price_cad.toLocaleString()}<span className="text-sm lg:text-base font-normal text-gray-500"> CAD</span></div>
-        )}
+        <div className="text-2xl lg:text-3xl font-regular">${displayPrice ? displayPrice.toLocaleString() : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> {displayCurrency}</span></div>
       </div>
       {/* Description */}
       <div className="text-base text-gray-800 leading-snug">
@@ -67,6 +87,21 @@ export function ProductInfoPanel({
         {notSuitableFor && (
           <span> <strong>Not suitable for:</strong> {notSuitableFor}</span>
         )}
+      </div>
+
+      {/* Add to Calculator Button */}
+      <div className="pt-4">
+        <button
+          onClick={handleAddToCart}
+          className={`w-full px-6 py-3 rounded-md font-medium text-center transition-colors flex items-center justify-center space-x-2 ${
+            isInCart(sku)
+              ? 'bg-green-600 text-white hover:bg-green-700'
+              : 'bg-heritageBlue text-white hover:bg-blue-700'
+          }`}
+        >
+          <ShoppingCart className="h-5 w-5" />
+          <span>{isInCart(sku) ? 'Added to Calculator' : 'Add to Calculator'}</span>
+        </button>
       </div>
     </div>
   );

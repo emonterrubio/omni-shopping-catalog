@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
-// Cart functionality removed
 import { ToastProvider } from "../components/ToastContext";
 import { ToastContainer } from "../components/ui/ToastContainer";
 import { PasswordProtection } from "../components/auth/PasswordProtection";
+import { CartProvider } from "../components/CartContext";
+import { CurrencyProvider } from "../components/CurrencyContext";
 import { AUTH_CONFIG } from "../config/auth";
 
 export const metadata: Metadata = {
@@ -25,10 +26,14 @@ export default function RootLayout({
       </head>
       <body className="font-sans">
         <PasswordProtection correctPassword={AUTH_CONFIG.ACCESS_PASSWORD}>
-          <ToastProvider>
-            {children}
-            <ToastContainer />
-          </ToastProvider>
+          <CurrencyProvider>
+            <CartProvider>
+              <ToastProvider>
+                {children}
+                <ToastContainer />
+              </ToastProvider>
+            </CartProvider>
+          </CurrencyProvider>
         </PasswordProtection>
       </body>
     </html>

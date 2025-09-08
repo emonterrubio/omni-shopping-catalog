@@ -9,6 +9,7 @@ import { CatalogSidebar } from "../../../components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Breadcrumb } from "../../../components/ui/Breadcrumb";
+import { CurrencyToggle } from "../../../components/ui/CurrencyToggle";
 import { useParams } from "next/navigation";
 
 export default function CategoryCatalogPage() {
@@ -272,6 +273,7 @@ export default function CategoryCatalogPage() {
             </div>
             {/* Desktop filter and sort dropdowns */}
             <div className="hidden lg:flex items-center gap-4 ml-auto">
+              <CurrencyToggle />
               <div className="flex items-center gap-2">
                 <label htmlFor="brand-filter" className="text-base font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
                 <div className="relative">
@@ -312,6 +314,7 @@ export default function CategoryCatalogPage() {
             </div>
             {/* Mobile filter and sort icons */}
             <div className="flex lg:hidden items-center gap-2 ml-auto relative">
+              <CurrencyToggle />
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"
