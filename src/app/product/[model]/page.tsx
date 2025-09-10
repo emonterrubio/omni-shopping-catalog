@@ -244,6 +244,7 @@ export default function ProductDetailPage() {
               description={product.description || `${product.manufacturer} ${product.model}`}
               quantity={quantity}
               category={product.category}
+              image={product.image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`}
               intendedFor={(product as any).intended_for}
               suitableFor={(product as any).suitable_for}
               notSuitableFor={(product as any).not_suitable_for}

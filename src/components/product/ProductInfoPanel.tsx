@@ -15,6 +15,7 @@ interface ProductInfoPanelProps {
   description: string;
   quantity: number;
   category?: string;
+  image?: string;
   intendedFor?: string;
   suitableFor?: string;
   notSuitableFor?: string;
@@ -34,6 +35,7 @@ export function ProductInfoPanel({
   description,
   quantity,
   category,
+  image,
   intendedFor,
   suitableFor,
   notSuitableFor,
@@ -58,7 +60,7 @@ export function ProductInfoPanel({
       description: description,
       price_usd: price,
       price_cad: price_cad,
-      image: '/images/placeholder-product.svg', // You might want to pass the actual image
+      image: image || '/images/placeholder-product.svg',
     });
   };
   return (

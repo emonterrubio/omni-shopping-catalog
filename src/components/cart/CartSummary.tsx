@@ -36,7 +36,7 @@ export function CartSummary() {
         <h2 className="text-xl font-semibold text-gray-900">Cost Calculator</h2>
         <button
           onClick={clearCart}
-          className="text-sm text-gray-500 hover:text-red-600 transition-colors"
+          className="text-sm text-blue-500 hover:text-blue-700 transition-colors"
         >
           Clear All
         </button>
@@ -58,14 +58,14 @@ export function CartSummary() {
         </div>
 
         <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-          <h3 className="font-medium text-blue-900 mb-2">Cost Breakdown</h3>
-          <div className="text-sm text-blue-800 space-y-1">
+          <h3 className="font-bold text-lg text-gray-900 mb-2">Cost Breakdown</h3>
+          <div className="text-sm text-gray-800 space-y-1">
             {items.map((item) => {
               const itemPrice = currency === 'CAD' ? (item.price_cad || 0) : item.price_usd;
               return (
                 <div key={item.id} className="flex justify-between">
                   <span className="truncate">{item.name} × {item.quantity}</span>
-                  <span>${(itemPrice * item.quantity).toLocaleString()}</span>
+                  <span className="font-bold">${(itemPrice * item.quantity).toLocaleString()}</span>
                 </div>
               );
             })}
