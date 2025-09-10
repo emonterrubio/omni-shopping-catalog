@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { CheckCircle, AlertCircle, ShoppingCart } from "lucide-react";
 import { ProductCardProps } from "@/types/ProductCardProps";
 import { useCart } from "@/components/CartContext";
 import { useCurrency } from "@/components/CurrencyContext";
+import { QuantityInput } from "./QuantityInput";
 import Link from "next/link";
 
 const PLACEHOLDER_IMAGE = "https://placehold.co/128x128?text=No+Image";
@@ -29,6 +30,7 @@ function inferCategory(model: string, category: string): string {
 export function ProductCard({ product, fromCatalog = false }: { product: ProductCardProps, fromCatalog?: boolean }) {
   const { addToCart, isInCart } = useCart();
   const { currency } = useCurrency();
+  const [quantity, setQuantity] = useState(1);
   const category = inferCategory(product.model, product.category);
   // For EA products, we'll consider them all eligible
   const isEligible = true;
@@ -46,6 +48,11 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
   console.log("ProductCard brand:", brand);
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);
 
+  const handleQuantityChange = (newQuantity: number) => {
+    // Ensure quantity doesn't go below 1 in ProductCard
+    setQuantity(Math.max(1, newQuantity));
+  };
+
   const handleAddToCart = () => {
     addToCart({
       id: product.model,
@@ -57,7 +64,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
       price_usd: price,
       price_cad: priceCad,
       image: image,
-    });
+    }, quantity);
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -96,28 +103,31 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
             {product.model}
           </h3>
         </Link>
-        {/* Description and Price */}
+        {/* Description, Quantity, and Price */}
         <div className="space-y-2 pb-4 flex-1">
           {(product.card_description || product.description) && <div className="text-gray-700 text-base leading-tight">{product.card_description || product.description}</div>}
-          <div>
+        </div>
+
+        {/* Price, Quantity, Add to Calculator and View Details Buttons */}
+        <div className="space-y-2">
+          {/* Quantity and Price */}
+          <div className="flex items-center justify-between py-2">
+            {/* Price */}
             <div className="text-xl font-bold text-gray-900">
               ${displayPrice.toLocaleString()}<span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
             </div>
+            
+            {/* Quantity Input */}
+            <div className="flex justify-center">
+             <QuantityInput
+               value={quantity}
+               onChange={handleQuantityChange}
+               min={1}
+               max={999}
+               showTrashIcon={false}
+             />
+            </div>
           </div>
-        </div>
-        {/* <div className="flex items-center justify-between mb-4">
-          <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-gray-600"}`}>
-            {isEligible ? (
-              <CheckCircle className="w-5 h-5 mr-1" />
-            ) : (
-              // <AlertCircle className="w-5 h-5 mr-1" />
-              ""
-            )}
-            {isEligible ? "Available" : ""}
-          </div>
-        </div> */}
-        {/* Action buttons */}
-        <div className="space-y-2">
           <button
             onClick={handleAddToCart}
             className={`w-full px-2 py-2 rounded-md font-medium text-center transition-colors flex items-center justify-center space-x-2 ${

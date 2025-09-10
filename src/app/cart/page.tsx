@@ -17,21 +17,21 @@ export default function CartPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center space-x-4 mb-4">
+          <div className="flex items-center space-x-4 mb-8">
             <Link 
               href="/catalog" 
               className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
             >
-              <ArrowLeft className="h-5 w-5 mr-2" />
+              <ArrowLeft className="h-5 w-5 text-blue-600 mr-2" />
               Back to Catalog
             </Link>
           </div>
           
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Calculator className="h-8 w-8 text-heritageBlue" />
+            <div className="flex items-start space-x-3">
+              <Calculator className="h-8 w-8 text-heritageBlue mt-1.5" />
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-4xl font-regular text-gray-900">
                   Cost Calculator
                 </h1>
                 <p className="text-gray-600 mt-1">
