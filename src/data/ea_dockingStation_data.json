@@ -23,7 +23,8 @@
       "4x USB Type-A",
       "2x USB Type-C",
       "1x 2.5GbE Ethernet"
-    ]
+    ],
+    "price_euro": 170
   },
   {
     "manufacturer": "Dell",
@@ -49,7 +50,8 @@
       "3x USB Type-A",
       "2x USB Type-C",
       "1x 1GbE Ethernet"
-    ]
+    ],
+    "price_euro": 207
   },
   {
     "manufacturer": "Belkin",
@@ -74,6 +76,7 @@
       "4x USB Type-A",
       "1x USB Type-C",
       "1x 1GbE Ethernet"
-    ]
+    ],
+    "price_euro": 276
   }
 ]

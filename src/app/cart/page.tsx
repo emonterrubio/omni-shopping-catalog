@@ -5,7 +5,6 @@ import { PageLayout } from '@/components/layout/PageLayout';
 import { useCart } from '@/components/CartContext';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
-import { CurrencyToggle } from '@/components/ui/CurrencyToggle';
 import { ArrowLeft, Calculator } from 'lucide-react';
 import Link from 'next/link';
 
@@ -39,10 +38,10 @@ export default function CartPage() {
                 </p>
               </div>
             </div>
-            <CurrencyToggle />
           </div>
         </div>
 
+        {/* Cart Items */}
         {items.length === 0 ? (
           <div className="text-center py-12">
             <Calculator className="h-16 w-16 text-gray-300 mx-auto mb-4" />
@@ -60,11 +59,11 @@ export default function CartPage() {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Cart Items */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 order-2 lg:order-1">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                <div className="px-6 py-4 border-b border-gray-200">
+                <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                   <h2 className="text-lg font-semibold text-gray-900">
                     Selected Items ({items.length})
                   </h2>
@@ -75,10 +74,18 @@ export default function CartPage() {
                   ))}
                 </div>
               </div>
+              {/* Disclaimer - only show when there are items */}
+              {items.length > 0 && (
+                <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-sm text-blue-800 text-left">
+                    Pricing is actual for all North American sites. If using the RTO calculator outside of North America, pricing is indicative only. Please work with your local site IT teams for actual pricing.
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* Cost Summary */}
-            <div className="lg:col-span-1">
+            {/* Cart Summary */}
+            <div className="lg:col-span-1 order-1 lg:order-2">
               <CartSummary />
             </div>
           </div>

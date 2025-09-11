@@ -10,6 +10,7 @@ interface ProductInfoPanelProps {
   sku: string;
   price: number;
   price_cad?: number;
+  price_euro?: number;
   available: boolean;
   deliveryTime: string;
   description: string;
@@ -20,8 +21,6 @@ interface ProductInfoPanelProps {
   suitableFor?: string;
   notSuitableFor?: string;
   onQuantityChange?: (qty: number) => void;
-  // Cart functionality removed
-  onCompare?: () => void;
 }
 
 export function ProductInfoPanel({
@@ -30,6 +29,7 @@ export function ProductInfoPanel({
   sku,
   price,
   price_cad,
+  price_euro,
   available,
   deliveryTime,
   description,
@@ -40,14 +40,13 @@ export function ProductInfoPanel({
   suitableFor,
   notSuitableFor,
   onQuantityChange,
-  // Cart functionality removed
-  onCompare,
 }: ProductInfoPanelProps) {
   const { addToCart, isInCart } = useCart();
   const { currency } = useCurrency();
 
   // Determine which price to display based on selected currency
-  const displayPrice = currency === 'CAD' ? (price_cad || 0) : price;
+  const displayPrice = currency === 'CAD' ? (price_cad || 0) : 
+                      currency === 'EUR' ? (price_euro || 0) : price;
   const displayCurrency = currency;
 
   const handleAddToCart = () => {
@@ -60,6 +59,7 @@ export function ProductInfoPanel({
       description: description,
       price_usd: price,
       price_cad: price_cad,
+      price_euro: price_euro,
       image: image || '/images/placeholder-product.svg',
     });
   };
@@ -75,7 +75,7 @@ export function ProductInfoPanel({
       </div>
       {/* price */}
       <div className="space-y-1">
-        <div className="text-2xl lg:text-3xl font-regular">${displayPrice ? displayPrice.toLocaleString() : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> {displayCurrency}</span></div>
+        <div className="text-2xl lg:text-3xl font-regular">${displayPrice ? (displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice).toLocaleString() : displayPrice.toLocaleString()) : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> {displayCurrency}</span></div>
       </div>
       {/* Description */}
       <div className="text-base text-gray-800 leading-snug">

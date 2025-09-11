@@ -11,7 +11,8 @@
     "mouse_buttons": 3,
     "power": "Wired",
     "description": "Basic wired office keyboard and mouse combo.",
-    "image": "/images/dell_km300c.png"
+    "image": "/images/dell_km300c.png",
+    "price_euro": 21
   },
   {
     "manufacturer": "Dell",
@@ -25,7 +26,8 @@
     "mouse_buttons": 3,
     "power": "Battery (AA/AAA)",
     "description": "Basic wireless office keyboard and mouse combo.",
-    "image": "/images/dell_km5221w.png"
+    "image": "/images/dell_km5221w.png",
+    "price_euro": 26
   },
   {
     "manufacturer": "Logitech",
@@ -39,7 +41,8 @@
     "mouse_buttons": 5,
     "power": "Battery (AA)",
     "description": "Standard wireless/bluetooth office keyboard and mouse combo with basic additional buttons/features.",
-    "image": "/images/logitech_signature_mk650_combo.png"
+    "image": "/images/logitech_signature_mk650_combo.png",
+    "price_euro": 55
   },
   {
     "manufacturer": "Logitech",
@@ -53,7 +56,8 @@
     "mouse_buttons": 7,
     "power": "Rechargeable",
     "description": "Premium wireless/bluetooth office keyboard and mouse combo with significant additional features such as device switching, programmable mouse buttons, adaptive backlighting, etc.",
-    "image": "/images/logitech_mx_keys_combo.png"
+    "image": "/images/logitech_mx_keys_combo.png",
+    "price_euro": 166
   },
   {
     "manufacturer": "Logitech",
@@ -67,7 +71,8 @@
     "mouse_buttons": 4,
     "power": "Rechargeable",
     "description": "Premium ergonomic wireless/bluetooth mouse for those who require/prefer a more vertical grip.",
-    "image": "/images/logitech_mx_vertical.png"
+    "image": "/images/logitech_mx_vertical.png",
+    "price_euro": 92
   },
   {
     "manufacturer": "Logitech",
@@ -81,7 +86,8 @@
     "mouse_buttons": null,
     "power": "Battery (AAA)",
     "description": "Premium ergonomic wireless/bluetooth keyboard for those who require/prefer additional comfort/support.",
-    "image": "/images/logitech_ergo_k860.png"
+    "image": "/images/logitech_ergo_k860.png",
+    "price_euro": 120
   },
   {
     "manufacturer": "Apple",
@@ -95,7 +101,8 @@
     "mouse_buttons": null,
     "power": "Rechargeable",
     "description": "Full size Apple bluetooth keyboard with touch ID.",
-    "image": "/images/apple_magic_keyboard_full.png"
+    "image": "/images/apple_magic_keyboard_full.png",
+    "price_euro": 166
   },
   {
     "manufacturer": "Apple",
@@ -109,7 +116,8 @@
     "mouse_buttons": null,
     "power": "Rechargeable",
     "description": "Compact size Apple bluetooth keyboard with touch ID. (No numpad or extra navigation keys).",
-    "image": "/images/apple_magic_keyboard_compact.png"
+    "image": "/images/apple_magic_keyboard_compact.png",
+    "price_euro": 138
   },
   {
     "manufacturer": "Apple",
@@ -123,7 +131,8 @@
     "mouse_buttons": "Multi-Touch",
     "power": "Rechargeable",
     "description": "Apple bluetooth mouse with multi-touch/gesture controls.",
-    "image": "/images/apple_magic_mouse.png"
+    "image": "/images/apple_magic_mouse.png",
+    "price_euro": 83
   },
   {
     "manufacturer": "Apple",
@@ -137,6 +146,7 @@
     "mouse_buttons": "Multi-Touch",
     "power": "Rechargeable",
     "description": "Apple bluetooth trackpad with multi-touch/gesture controls.",
-    "image": "/images/apple_magic_trackpad.png"
+    "image": "/images/apple_magic_trackpad.png",
+    "price_euro": 115
   }
 ]

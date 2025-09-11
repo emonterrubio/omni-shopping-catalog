@@ -9,7 +9,6 @@ import { Header } from "@/components/layout/Header";
 import { ArrowLeft, ChevronDownIcon } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { CurrencyToggle } from "@/components/ui/CurrencyToggle";
 
 function getCategoryPlural(category: string): string {
   // Convert category to plural form
@@ -45,6 +44,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
     image: product.image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
     price_usd: product.price_usd,
     price_cad: product.price_cad,
+    price_euro: product.price_euro,
     recommended: false,
   }));
 }
@@ -115,7 +115,6 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
             Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
           </div>
           <div className="flex items-center gap-4 ml-auto">
-            <CurrencyToggle />
             <div className="flex items-center gap-2">
               <label htmlFor="brand-filter" className="text-sm font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
               <div className="relative">

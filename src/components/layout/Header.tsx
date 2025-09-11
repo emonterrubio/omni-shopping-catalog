@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { MainNavigationClient } from "./MainNavigationClient";
 import { CartIcon } from "../cart/CartIcon";
+import { CurrencyToggle } from "../ui/CurrencyToggle";
 
 export function Header() {
   const router = useRouter();
@@ -52,6 +53,7 @@ export function Header() {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
+              <CurrencyToggle />
               <CartIcon />
             </div>
           </div>

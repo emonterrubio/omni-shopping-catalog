@@ -39,10 +39,12 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
   const brand = product.manufacturer || product.brand || 'Unknown';
   const price = product.price_usd || product.price || 0;
   const priceCad = product.price_cad;
+  const priceEuro = product.price_euro;
   const image = product.image || PLACEHOLDER_IMAGE;
 
   // Determine which price to display based on selected currency
-  const displayPrice = currency === 'CAD' ? (priceCad || 0) : price;
+  const displayPrice = currency === 'CAD' ? (priceCad || 0) : 
+                      currency === 'EUR' ? (priceEuro || 0) : price;
   const displayCurrency = currency;
 
   console.log("ProductCard brand:", brand);
@@ -63,6 +65,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
       description: product.card_description || product.description,
       price_usd: price,
       price_cad: priceCad,
+      price_euro: priceEuro,
       image: image,
     }, quantity);
   };
@@ -114,7 +117,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           <div className="flex items-center justify-between py-2">
             {/* Price */}
             <div className="text-xl font-bold text-gray-900">
-              ${displayPrice.toLocaleString()}<span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
+              ${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice).toLocaleString() : displayPrice.toLocaleString()}<span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
             </div>
             
             {/* Quantity Input */}

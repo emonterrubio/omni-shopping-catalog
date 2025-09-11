@@ -11,6 +11,7 @@ export interface CartItem {
   description?: string;
   price_usd: number;
   price_cad?: number;
+  price_euro?: number;
   image: string;
   quantity: number;
 }
@@ -24,6 +25,7 @@ interface CartContextType {
   getTotalItems: () => number;
   getTotalCostUSD: () => number;
   getTotalCostCAD: () => number;
+  getTotalCostEUR: () => number;
   isInCart: (id: string) => boolean;
   getCartItemQuantity: (id: string) => number;
 }
@@ -87,6 +89,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }, 0);
   };
 
+  const getTotalCostEUR = () => {
+    return items.reduce((total, item) => {
+      const euroPrice = item.price_euro || 0;
+      return total + (euroPrice * item.quantity);
+    }, 0);
+  };
+
   const isInCart = (id: string) => {
     return items.some(item => item.id === id);
   };
@@ -105,6 +114,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     getTotalItems,
     getTotalCostUSD,
     getTotalCostCAD,
+    getTotalCostEUR,
     isInCart,
     getCartItemQuantity,
   };

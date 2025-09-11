@@ -239,6 +239,7 @@ export default function ProductDetailPage() {
               sku={product.model}
               price={(product as any).price_usd || (product as any).ea_estimated_price_usd}
               price_cad={(product as any).price_cad}
+              price_euro={(product as any).price_euro}
               available={isEligible}
               deliveryTime={"Within 5 days"}
               description={product.description || `${product.manufacturer} ${product.model}`}

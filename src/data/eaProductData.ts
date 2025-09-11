@@ -30,6 +30,11 @@ export const keyboardData = mouseKeyboardData.filter(item =>
 export const mouseKeyboardComboData = mouseKeyboardData.filter(item => 
   item.category === 'Mouse & Keyboard'
 );
+
+// Export subsections for the unified Mice & Keyboard category
+export const miceSubsection = mouseData;
+export const keyboardsSubsection = keyboardData;
+export const combosSubsection = mouseKeyboardComboData;
 export const webcamDataExport = webcamData;
 export const backpackData: any[] = [];
 
@@ -61,24 +66,12 @@ export const categories = [
   },
   {
     id: 5,
-    name: 'Mice',
-    iconName: 'mouse',
-    itemQuantity: mouseData.length,
+    name: 'Mice and Keyboards',
+    iconName: 'mouse-pointer',
+    itemQuantity: mouseKeyboardData.length,
   },
   {
     id: 6,
-    name: 'Keyboards',
-    iconName: 'keyboard',
-    itemQuantity: keyboardData.length,
-  },
-  {
-    id: 7,
-    name: 'Mouse & Keyboard',
-    iconName: 'mouse-pointer',
-    itemQuantity: mouseKeyboardComboData.length,
-  },
-  {
-    id: 8,
     name: 'Webcams',
     iconName: 'video',
     itemQuantity: webcamData.length,
@@ -92,12 +85,6 @@ export const quickActions = [
     icon: 'search',
     title: 'Find Hardware',
     description: 'Search for specific hardware requirements',
-  },
-  {
-    id: 2,
-    icon: 'compare',
-    title: 'Compare Products',
-    description: 'Compare different hardware options',
   },
   // Cart functionality removed
   {

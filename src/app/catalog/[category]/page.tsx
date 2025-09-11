@@ -1,6 +1,6 @@
 "use client";
 
-import { hardwareData } from "../../../data/eaProductData";
+import { hardwareData, miceSubsection, keyboardsSubsection, combosSubsection } from "../../../data/eaProductData";
 import { ProductCard } from "../../../components/ui/ProductCard";
 import { PlatformInfoBanner } from "../../../components/ui/PlatformInfoBanner";
 import { PageLayout } from "../../../components/layout/PageLayout";
@@ -9,7 +9,6 @@ import { CatalogSidebar } from "../../../components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Breadcrumb } from "../../../components/ui/Breadcrumb";
-import { CurrencyToggle } from "../../../components/ui/CurrencyToggle";
 import { useParams } from "next/navigation";
 
 export default function CategoryCatalogPage() {
@@ -32,7 +31,7 @@ export default function CategoryCatalogPage() {
       case 'keyboards':
         return 'keyboard';
       case 'mouse-keyboard':
-        return 'mouse & keyboard';
+        return 'mice and keyboards';
       case 'webcams':
         return 'webcam';
       default:
@@ -56,6 +55,7 @@ export default function CategoryCatalogPage() {
     manufacturer: product.manufacturer,
     price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
     price_cad: (product as any).price_cad,
+    price_euro: (product as any).price_euro,
   }));
 
   // Group products by brand
@@ -123,8 +123,12 @@ export default function CategoryCatalogPage() {
                productCategory === 'trackpad';
       } else if (targetCategory === 'keyboard') {
         return productCategory === 'keyboard';
-      } else if (targetCategory === 'mouse & keyboard') {
-        return productCategory === 'mouse & keyboard';
+      } else if (targetCategory === 'mice and keyboards') {
+        // Include all mouse, keyboard, and combo products
+        return productCategory === 'mouse' || 
+               productCategory === 'trackpad' ||
+               productCategory === 'keyboard' ||
+               productCategory === 'mouse & keyboard';
       } else if (targetCategory === 'webcam') {
         return productCategory === 'webcam';
       } else {
@@ -180,6 +184,20 @@ export default function CategoryCatalogPage() {
         acc[brand] = productsByBrand[brand].length;
         return acc;
       }, {} as { [brand: string]: number });
+    } else if (selectedCategory === "mice and keyboards") {
+      // Special case for Mice and Keyboards - count from all subsections
+      return Object.keys(productsByBrand).reduce((acc, brand) => {
+        const count = productsByBrand[brand].filter(product => {
+          if (!product.category) return false;
+          const productCategory = product.category.toLowerCase();
+          return productCategory === 'mouse' || 
+                 productCategory === 'trackpad' ||
+                 productCategory === 'keyboard' ||
+                 productCategory === 'mouse & keyboard';
+        }).length;
+        acc[brand] = count;
+        return acc;
+      }, {} as { [brand: string]: number });
     } else {
       // If category is selected, count only products in that category
       return Object.keys(productsByBrand).reduce((acc, brand) => {
@@ -205,6 +223,8 @@ export default function CategoryCatalogPage() {
         return 'Docking Stations';
       case 'headset':
         return 'Headsets';
+      case 'mice and keyboards':
+        return 'Mice and Keyboards';
       default:
         return singular.charAt(0).toUpperCase() + singular.slice(1) + 's';
     }
@@ -223,7 +243,7 @@ export default function CategoryCatalogPage() {
         className="mb-4 sm:px-4 lg:px-0"
       />
 
-      <div className="text-left mb-4 sm:px-4 lg:px-0">
+      <div className="text-left mb-8 sm:px-4 lg:px-0">
         <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
           {selectedBrand === "all" 
             ? `All ${pluralCategoryName}` 
@@ -272,11 +292,26 @@ export default function CategoryCatalogPage() {
         <div className="flex-1 mt-4 sm:mt-0 lg:pl-3 sm:px-4 lg:px-0">
           <div className="flex items-center justify-between mb-2 sm:mb-4 gap-4 flex-wrap w-full">
             <div className="text-base font-regular text-gray-900 min-w-max">
-              Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
+              {selectedCategory === 'mice and keyboards' ? (
+                (() => {
+                  const filteredMice = miceSubsection.filter(product => 
+                    selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                  );
+                  const filteredKeyboards = keyboardsSubsection.filter(product => 
+                    selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                  );
+                  const filteredCombos = combosSubsection.filter(product => 
+                    selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                  );
+                  const totalFiltered = filteredMice.length + filteredKeyboards.length + filteredCombos.length;
+                  return `Showing all ${totalFiltered} items`;
+                })()
+              ) : (
+                `Showing ${startIndex + 1}-${Math.min(endIndex, sortedProducts.length)} of ${sortedProducts.length} item${sortedProducts.length === 1 ? "" : "s"}`
+              )}
             </div>
             {/* Desktop filter and sort dropdowns */}
             <div className="hidden lg:flex items-center gap-4 ml-auto">
-              <CurrencyToggle />
               <div className="flex items-center gap-2">
                 <label htmlFor="brand-filter" className="text-base font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
                 <div className="relative">
@@ -317,7 +352,6 @@ export default function CategoryCatalogPage() {
             </div>
             {/* Mobile filter and sort icons */}
             <div className="flex lg:hidden items-center gap-2 ml-auto relative">
-              <CurrencyToggle />
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"
@@ -422,6 +456,120 @@ export default function CategoryCatalogPage() {
                 </div>
               </div>
             </div>
+          ) : selectedCategory === 'mice and keyboards' ? (
+            // Special display for Mice & Keyboard category with subsections
+            <div className="space-y-8">
+              {/* Mice Section */}
+              {miceSubsection.filter(product => 
+                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+              ).length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                    Mice
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                    {miceSubsection
+                      .filter(product => 
+                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                      )
+                      .map((product, idx) => {
+                      const mappedProduct = {
+                        brand: product.manufacturer,
+                        model: product.model,
+                        category: product.category,
+                        description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        card_description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        features: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        image: (product as any).image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
+                        price: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        recommended: true,
+                        manufacturer: product.manufacturer,
+                        price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        price_cad: (product as any).price_cad,
+                        price_euro: (product as any).price_euro,
+                      };
+                      return (
+                        <ProductCard key={`mice-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Keyboards Section */}
+              {keyboardsSubsection.filter(product => 
+                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+              ).length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                    Keyboards
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                    {keyboardsSubsection
+                      .filter(product => 
+                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                      )
+                      .map((product, idx) => {
+                      const mappedProduct = {
+                        brand: product.manufacturer,
+                        model: product.model,
+                        category: product.category,
+                        description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        card_description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        features: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        image: (product as any).image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
+                        price: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        recommended: true,
+                        manufacturer: product.manufacturer,
+                        price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        price_cad: (product as any).price_cad,
+                        price_euro: (product as any).price_euro,
+                      };
+                      return (
+                        <ProductCard key={`keyboard-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Combos Section */}
+              {combosSubsection.filter(product => 
+                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+              ).length > 0 && (
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                    Mouse & Keyboard Combos
+                  </h2>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                    {combosSubsection
+                      .filter(product => 
+                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                      )
+                      .map((product, idx) => {
+                      const mappedProduct = {
+                        brand: product.manufacturer,
+                        model: product.model,
+                        category: product.category,
+                        description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        card_description: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        features: (product as any).description || `${product.manufacturer} ${product.model}`,
+                        image: (product as any).image || `/images/${product.manufacturer.toLowerCase()}_${product.model.toLowerCase().replace(/\s+/g, "_")}.png`,
+                        price: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        recommended: true,
+                        manufacturer: product.manufacturer,
+                        price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
+                        price_cad: (product as any).price_cad,
+                        price_euro: (product as any).price_euro,
+                      };
+                      return (
+                        <ProductCard key={`combo-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
               {paginatedProducts.map((product, idx) => (
@@ -430,7 +578,7 @@ export default function CategoryCatalogPage() {
             </div>
           )}
           
-          {filteredProducts.length > 0 && (
+          {filteredProducts.length > 0 && selectedCategory !== 'mice and keyboards' && (
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

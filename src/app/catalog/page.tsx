@@ -8,7 +8,6 @@ import { Pagination } from "../../components/ui/Pagination";
 import { CatalogSidebar } from "../../components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
-import { CurrencyToggle } from "../../components/ui/CurrencyToggle";
 
 export default function CatalogPage() {
   // Use the EA product data directly
@@ -25,6 +24,7 @@ export default function CatalogPage() {
     manufacturer: product.manufacturer,
     price_usd: (product as any).price_usd || (product as any).ea_estimated_price_usd,
     price_cad: (product as any).price_cad,
+    price_euro: (product as any).price_euro,
   }));
 
   // Group products by brand
@@ -181,6 +181,7 @@ export default function CatalogPage() {
           })()}
         </h1>
         <h4 className="text-base font-base text-gray-800 mb-2">Browse our catalog of products and find the perfect item for your needs.</h4>
+        <p className="bg-yellow-50 border border-yellow-200 rounded-md text-sm text-gray-600 p-4 mb-2">This site is created as a resource for RTO in estimating hardware costs for RTO.  Equipment and pricing are based on North America general standards for a secondary machine or desk monitor and peripherals setup.  Please contact your local Site IT Manager to understand available equipment stock and if there is available equipment on site that may be repurposed.</p>
       </div>
       
       <div className="flex flex-col lg:flex-row">
@@ -231,7 +232,6 @@ export default function CatalogPage() {
             </div>
             {/* Desktop filter and sort dropdowns */}
             <div className="hidden lg:flex items-center gap-4 ml-auto">
-              <CurrencyToggle />
               <div className="flex items-center gap-2">
                 <label htmlFor="brand-filter" className="text-base font-regular text-gray-700 whitespace-nowrap">Filter by:</label>
                 <div className="relative">
@@ -272,7 +272,6 @@ export default function CatalogPage() {
             </div>
             {/* Mobile filter and sort icons */}
             <div className="flex lg:hidden items-center gap-2 ml-auto relative">
-              <CurrencyToggle />
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"

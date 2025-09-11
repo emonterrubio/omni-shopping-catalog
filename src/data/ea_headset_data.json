@@ -15,7 +15,8 @@
     "description": "Basic wired headset with no additional features.",
     "weight_g": 197,
     "battery_life": "N/A",
-    "intended_for": "Infrequent conferencing workloads."
+    "intended_for": "Infrequent conferencing workloads.",
+    "price_euro": 21
   },
   {
     "manufacturer": "Jabra",
@@ -33,7 +34,8 @@
     "description": "Standard wired headset with basic features.",
     "weight_g": 128,
     "battery_life": "N/A",
-    "intended_for": "Standard conferencing workloads."
+    "intended_for": "Standard conferencing workloads.",
+    "price_euro": 80
   },
   {
     "manufacturer": "Jabra",
@@ -51,7 +53,8 @@
     "description": "Portable bluetooth headset with active noise cancellation.",
     "weight_g": 136,
     "battery_life": "20 hours",
-    "intended_for": "High conferencing workloads, in loud environments and frequent commute/travel with the headset."
+    "intended_for": "High conferencing workloads, in loud environments and frequent commute/travel with the headset.",
+    "price_euro": 239
   },
   {
     "manufacturer": "Jabra",
@@ -69,7 +72,8 @@
     "description": "Premium bluetooth headset designed for all-day comfort with maximum active noise cancellation.",
     "weight_g": 286,
     "battery_life": "26 hours",
-    "intended_for": "High meeting workloads in loud environments, requiring all-day comfort."
+    "intended_for": "High meeting workloads in loud environments, requiring all-day comfort.",
+    "price_euro": 359
   },
   {
     "manufacturer": "Apple",
@@ -87,6 +91,7 @@
     "description": "Highly portable and lightweight bluetooth earbuds with active noise cancellation.",
     "weight_g": 11,
     "battery_life": "5 hours (+20 hours with charging case)",
-    "intended_for": "Maximum portability for frequent commute/travel and conferencing."
+    "intended_for": "Maximum portability for frequent commute/travel and conferencing.",
+    "price_euro": 230
   }
 ]

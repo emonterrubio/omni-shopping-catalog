@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type Currency = 'USD' | 'CAD';
+type Currency = 'USD' | 'CAD' | 'EUR';
 
 interface CurrencyContextType {
   currency: Currency;
@@ -16,7 +16,11 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrency] = useState<Currency>('USD');
 
   const toggleCurrency = () => {
-    setCurrency(prev => prev === 'USD' ? 'CAD' : 'USD');
+    setCurrency(prev => {
+      if (prev === 'USD') return 'CAD';
+      if (prev === 'CAD') return 'EUR';
+      return 'USD';
+    });
   };
 
   const value: CurrencyContextType = {
