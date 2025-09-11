@@ -1,15 +1,21 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { useCart } from '@/components/CartContext';
 import { CartItem } from '@/components/cart/CartItem';
 import { CartSummary } from '@/components/cart/CartSummary';
-import { ArrowLeft, Calculator } from 'lucide-react';
+import { ArrowLeft, Calculator, X } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CartPage() {
   const { items } = useCart();
+  const [showDisclaimer, setShowDisclaimer] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('cartDisclaimerDismissed') !== 'true';
+    }
+    return true;
+  });
 
   return (
     <PageLayout>
@@ -62,6 +68,24 @@ export default function CartPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
             {/* Cart Items */}
             <div className="lg:col-span-2 order-2 lg:order-1">
+              {/* Disclaimer - only show when there are items and banner is not dismissed */}
+              {items.length > 0 && showDisclaimer && (
+                <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg relative">
+                  <button
+                    onClick={() => {
+                      setShowDisclaimer(false);
+                      localStorage.setItem('cartDisclaimerDismissed', 'true');
+                    }}
+                    className="absolute top-2 right-2 p-1 text-blue-500 hover:text-blue-700 transition-colors"
+                    aria-label="Close disclaimer"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                  <p className="text-sm text-blue-800 text-left pr-6">
+                    Pricing is actual for all North American sites. If using the RTO calculator outside of North America, pricing is indicative only. Please work with your local site IT teams for actual pricing.
+                  </p>
+                </div>
+              )}
               <div className="bg-white rounded-lg shadow-sm border border-gray-200">
                 <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
                   <h2 className="text-lg font-semibold text-gray-900">
@@ -74,14 +98,6 @@ export default function CartPage() {
                   ))}
                 </div>
               </div>
-              {/* Disclaimer - only show when there are items */}
-              {items.length > 0 && (
-                <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm text-blue-800 text-left">
-                    Pricing is actual for all North American sites. If using the RTO calculator outside of North America, pricing is indicative only. Please work with your local site IT teams for actual pricing.
-                  </p>
-                </div>
-              )}
             </div>
 
             {/* Cart Summary */}
