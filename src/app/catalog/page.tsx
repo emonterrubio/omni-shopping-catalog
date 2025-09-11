@@ -6,7 +6,7 @@ import { PlatformInfoBanner } from "../../components/ui/PlatformInfoBanner";
 import { PageLayout } from "../../components/layout/PageLayout";
 import { Pagination } from "../../components/ui/Pagination";
 import { CatalogSidebar } from "../../components/catalog/CatalogSidebar";
-import { SortAsc, Filter, PackageSearch, ChevronDownIcon, X } from "lucide-react";
+import { SortAsc, Filter, PackageSearch, ChevronDownIcon } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function CatalogPage() {
@@ -42,12 +42,6 @@ export default function CatalogPage() {
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [showBanner, setShowBanner] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('catalogBannerDismissed') !== 'true';
-    }
-    return true;
-  });
 
   const sortMenuRef = useRef<HTMLDivElement>(null);
   const filterMenuRef = useRef<HTMLDivElement>(null);
@@ -188,24 +182,12 @@ export default function CatalogPage() {
         </h1>
         <h4 className="text-base font-base text-gray-800 mb-2">Browse our catalog of products and find the perfect item for your needs.</h4>
         
-        {/* Dismissible Banner */}
-        {showBanner && (
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md text-sm text-gray-600 p-4 my-4 relative">
-            <button
-              onClick={() => {
-                setShowBanner(false);
-                localStorage.setItem('catalogBannerDismissed', 'true');
-              }}
-              className="absolute top-2 right-2 p-1 text-yellow-500 hover:text-gray-600 transition-colors"
-              aria-label="Close banner"
-            >
-              <X className="h-4 w-4" />
-            </button>
-            <p className="pr-6">
-              This site is created as a resource for RTO in estimating hardware costs for RTO. Equipment and pricing are based on North America general standards for a secondary machine or desk monitor and peripherals setup. Please contact your local Site IT Manager to understand available equipment stock and if there is available equipment on site that may be repurposed.
-            </p>
-          </div>
-        )}
+        {/* RTO Notice Banner */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-md text-sm text-gray-600 p-4 my-4">
+          <p>
+            This site is created as a resource for RTO in estimating hardware costs for RTO. Equipment and pricing are based on North America general standards for a secondary machine or desk monitor and peripherals setup. Please contact your local Site IT Manager to understand available equipment stock and if there is available equipment on site that may be repurposed.
+          </p>
+        </div>
       </div>
       
       <div className="flex flex-col lg:flex-row">

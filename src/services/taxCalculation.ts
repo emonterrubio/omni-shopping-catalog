@@ -21,7 +21,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     name: "Kirkland", 
     zipCode: "98033",
     state: "WA",
-    taxRate: 0.1025 // 10.25% (Washington state + local)
+    taxRate: 0.10375 // 10.375% (Washington state + local)
   },
   {
     name: "Los Angeles - Chatsworth",
@@ -33,7 +33,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     name: "Los Angeles - Del Rey",
     zipCode: "90232",
     state: "CA",
-    taxRate: 0.1025 // 10.25% (California state + local)
+    taxRate: 0.105 // 10.5% (California state + local)
   },
   {
     name: "Orlando",
@@ -45,7 +45,7 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     name: "Redwood Shores",
     zipCode: "94065",
     state: "CA",
-    taxRate: 0.1025 // 10.25% (California state + local)
+    taxRate: 0.09875 // 9.875% (California state + local)
   },
   // Canadian Locations
   {
@@ -77,6 +77,37 @@ export const OFFICE_LOCATIONS: OfficeLocation[] = [
     zipCode: "V8W 0A1",
     state: "BC",
     taxRate: 0.12 // 12% (GST 5% + PST 7%)
+  },
+  // European Locations
+  {
+    name: "Helsinki",
+    zipCode: "00100",
+    state: "FI",
+    taxRate: 0.24 // 24% (Finland VAT)
+  },
+  {
+    name: "Lyon",
+    zipCode: "69000",
+    state: "FR",
+    taxRate: 0.20 // 20% (France VAT)
+  },
+  {
+    name: "Madrid",
+    zipCode: "28001",
+    state: "ES",
+    taxRate: 0.21 // 21% (Spain VAT)
+  },
+  {
+    name: "Cologne",
+    zipCode: "50667",
+    state: "DE",
+    taxRate: 0.19 // 19% (Germany VAT)
+  },
+  {
+    name: "Galway",
+    zipCode: "H91",
+    state: "IE",
+    taxRate: 0.23 // 23% (Ireland VAT)
   }
 ];
 

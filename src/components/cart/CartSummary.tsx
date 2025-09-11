@@ -3,8 +3,13 @@
 import React from 'react';
 import { useCart } from '../CartContext';
 import { useCurrency } from '../CurrencyContext';
+import { calculateTax, getTaxRate } from '@/services/taxCalculation';
 
-export function CartSummary() {
+interface CartSummaryProps {
+  selectedLocation?: string;
+}
+
+export function CartSummary({ selectedLocation }: CartSummaryProps) {
   const { items, getTotalItems, getTotalCostUSD, getTotalCostCAD, getTotalCostEUR, clearCart } = useCart();
   const { currency } = useCurrency();
   
@@ -24,6 +29,11 @@ export function CartSummary() {
   const displayTotal = currency === 'CAD' ? totalCAD : 
                       currency === 'EUR' ? totalEUR : totalUSD;
   const displayCurrency = currency;
+
+  // Calculate tax if location is selected
+  const taxAmount = selectedLocation ? calculateTax(displayTotal, 'office', selectedLocation) : 0;
+  const taxRate = selectedLocation ? getTaxRate('office', selectedLocation) : 0;
+  const finalTotal = displayTotal + taxAmount;
 
   if (items.length === 0) {
     return (
@@ -53,15 +63,22 @@ export function CartSummary() {
 
       <div className="space-y-4">
         <div className="flex justify-between text-sm text-gray-600">
-          <span>Items ({totalItems}):</span>
+          <span>Total items ({totalItems}):</span>
           <span>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayTotal).toLocaleString() : displayTotal.toLocaleString()} {displayCurrency}</span>
         </div>
+
+        {selectedLocation && taxAmount > 0 && (
+          <div className="flex justify-between text-sm text-gray-600">
+            <span>Tax ({selectedLocation} - {(taxRate * 100).toFixed(3)}%):</span>
+            <span>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(taxAmount).toLocaleString() : taxAmount.toLocaleString()} {displayCurrency}</span>
+          </div>
+        )}
 
         <div className="border-t border-gray-200 pt-4">
           <div className="flex justify-between text-lg font-semibold text-gray-900">
             <span>Total Cost:</span>
             <div className="text-right">
-              <div>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayTotal).toLocaleString() : displayTotal.toLocaleString()} {displayCurrency}</div>
+              <div>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(finalTotal).toLocaleString() : finalTotal.toLocaleString()} {displayCurrency}</div>
             </div>
           </div>
         </div>

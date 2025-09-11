@@ -52,8 +52,8 @@ export function CartItem({ item }: CartItemProps) {
             />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="text-base font-medium text-gray-900" title={item.name}>
-              {item.name.length > 30 ? `${item.name.substring(0, 30)}...` : item.name}
+            <h3 className="text-base font-medium text-gray-900">
+              {item.name}
             </h3>
             <p className="text-xs text-gray-500 mt-1">
               {item.description || `${item.brand} • ${item.category}`}
@@ -98,8 +98,8 @@ export function CartItem({ item }: CartItemProps) {
         </div>
         
         <div className="flex-1 min-w-0">
-          <h3 className="text-lg font-medium text-gray-900 truncate" title={item.name}>
-            {item.name.length > 25 ? `${item.name.substring(0, 25)}...` : item.name}
+          <h3 className="text-lg font-medium text-gray-900">
+            {item.name}
           </h3>
           <p className="text-sm text-gray-500">
             {item.description || `${item.brand} • ${item.category}`}
