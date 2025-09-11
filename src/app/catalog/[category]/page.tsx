@@ -460,19 +460,38 @@ export default function CategoryCatalogPage() {
             // Special display for Mice & Keyboard category with subsections
             <div className="space-y-8">
               {/* Mice Section */}
-              {miceSubsection.filter(product => 
-                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-              ).length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
-                    Mice
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
-                    {miceSubsection
-                      .filter(product => 
-                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-                      )
-                      .map((product, idx) => {
+              {(() => {
+                const filteredMice = miceSubsection.filter(product => 
+                  selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                );
+                
+                // Apply sorting to mice subsection
+                let sortedMice = filteredMice;
+                if (sortOption === "price-low") {
+                  sortedMice = [...filteredMice].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceA - priceB;
+                  });
+                } else if (sortOption === "price-high") {
+                  sortedMice = [...filteredMice].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceB - priceA;
+                  });
+                } else if (sortOption === "az") {
+                  sortedMice = [...filteredMice].sort((a, b) => a.model.localeCompare(b.model));
+                } else if (sortOption === "za") {
+                  sortedMice = [...filteredMice].sort((a, b) => b.model.localeCompare(a.model));
+                }
+                
+                return sortedMice.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                      Mice
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                      {sortedMice.map((product, idx) => {
                       const mappedProduct = {
                         brand: product.manufacturer,
                         model: product.model,
@@ -488,28 +507,48 @@ export default function CategoryCatalogPage() {
                         price_cad: (product as any).price_cad,
                         price_euro: (product as any).price_euro,
                       };
-                      return (
-                        <ProductCard key={`mice-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
-                      );
-                    })}
+                        return (
+                          <ProductCard key={`mice-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Keyboards Section */}
-              {keyboardsSubsection.filter(product => 
-                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-              ).length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
-                    Keyboards
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
-                    {keyboardsSubsection
-                      .filter(product => 
-                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-                      )
-                      .map((product, idx) => {
+              {(() => {
+                const filteredKeyboards = keyboardsSubsection.filter(product => 
+                  selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                );
+                
+                // Apply sorting to keyboards subsection
+                let sortedKeyboards = filteredKeyboards;
+                if (sortOption === "price-low") {
+                  sortedKeyboards = [...filteredKeyboards].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceA - priceB;
+                  });
+                } else if (sortOption === "price-high") {
+                  sortedKeyboards = [...filteredKeyboards].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceB - priceA;
+                  });
+                } else if (sortOption === "az") {
+                  sortedKeyboards = [...filteredKeyboards].sort((a, b) => a.model.localeCompare(b.model));
+                } else if (sortOption === "za") {
+                  sortedKeyboards = [...filteredKeyboards].sort((a, b) => b.model.localeCompare(a.model));
+                }
+                
+                return sortedKeyboards.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                      Keyboards
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                      {sortedKeyboards.map((product, idx) => {
                       const mappedProduct = {
                         brand: product.manufacturer,
                         model: product.model,
@@ -525,28 +564,48 @@ export default function CategoryCatalogPage() {
                         price_cad: (product as any).price_cad,
                         price_euro: (product as any).price_euro,
                       };
-                      return (
-                        <ProductCard key={`keyboard-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
-                      );
-                    })}
+                        return (
+                          <ProductCard key={`keyboard-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
               {/* Combos Section */}
-              {combosSubsection.filter(product => 
-                selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-              ).length > 0 && (
-                <div>
-                  <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
-                    Mouse & Keyboard Combos
-                  </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
-                    {combosSubsection
-                      .filter(product => 
-                        selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
-                      )
-                      .map((product, idx) => {
+              {(() => {
+                const filteredCombos = combosSubsection.filter(product => 
+                  selectedBrand === "all" || product.manufacturer.toLowerCase() === selectedBrand.toLowerCase()
+                );
+                
+                // Apply sorting to combos subsection
+                let sortedCombos = filteredCombos;
+                if (sortOption === "price-low") {
+                  sortedCombos = [...filteredCombos].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceA - priceB;
+                  });
+                } else if (sortOption === "price-high") {
+                  sortedCombos = [...filteredCombos].sort((a, b) => {
+                    const priceA = (a as any).price_usd || (a as any).ea_estimated_price_usd || 0;
+                    const priceB = (b as any).price_usd || (b as any).ea_estimated_price_usd || 0;
+                    return priceB - priceA;
+                  });
+                } else if (sortOption === "az") {
+                  sortedCombos = [...filteredCombos].sort((a, b) => a.model.localeCompare(b.model));
+                } else if (sortOption === "za") {
+                  sortedCombos = [...filteredCombos].sort((a, b) => b.model.localeCompare(a.model));
+                }
+                
+                return sortedCombos.length > 0 && (
+                  <div>
+                    <h2 className="text-2xl font-semibold text-gray-900 mb-2 pb-2">
+                      Mouse & Keyboard Combos
+                    </h2>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
+                      {sortedCombos.map((product, idx) => {
                       const mappedProduct = {
                         brand: product.manufacturer,
                         model: product.model,
@@ -562,13 +621,14 @@ export default function CategoryCatalogPage() {
                         price_cad: (product as any).price_cad,
                         price_euro: (product as any).price_euro,
                       };
-                      return (
-                        <ProductCard key={`combo-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
-                      );
-                    })}
+                        return (
+                          <ProductCard key={`combo-${product.model}-${idx}`} product={mappedProduct} fromCatalog={true} />
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
