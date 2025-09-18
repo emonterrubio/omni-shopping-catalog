@@ -49,18 +49,9 @@ export default function CartPage() {
 
   return (
     <PageLayout>
-      <div className="max-w-6xl mx-auto">
+      <div className="!max-w-none">
         {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center space-x-4 mb-8">
-            <Link 
-              href="/catalog" 
-              className="flex items-center text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5 text-blue-600 mr-2" />
-              Back to Catalog
-            </Link>
-          </div>
+        <div className="max-w-6xl mx-auto mb-8">
           
           <div className="flex items-center justify-between">
             <div className="flex items-start space-x-3">

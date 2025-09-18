@@ -1,46 +1,70 @@
-# Getting Started with Create React App
+# EA Omni RTO Calculator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A comprehensive hardware cost calculator for Electronic Arts' Return-to-Office (RTO) initiative. This application helps business unit leaders estimate equipment costs for outfitting onsite desks with hardware including laptops, monitors, peripherals, and accessories.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Hardware Catalog**: Browse laptops, monitors, mice, keyboards, webcams, docking stations, and headsets
+- **Cost Calculator**: Add items with unlimited quantities and calculate total costs
+- **Multi-Currency Support**: USD, CAD, and EUR pricing with real-time conversion
+- **Tax Calculation**: Location-based tax calculation for US, Canadian, and European office locations
+- **Office Locations**: Support for 16+ office locations across North America and Europe
+- **Responsive Design**: Mobile-friendly interface with modern UI/UX
 
-### `npm start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Framework**: Next.js 15 with React 19
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **TypeScript**: Full type safety
+- **Deployment**: Vercel
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js 18+ 
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+```bash
+git clone https://github.com/emonterrubio/ea-omni-rto-calculator.git
+cd ea-omni-rto-calculator
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Install dependencies:
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Run the development server:
+```bash
+npm run dev
+```
 
-### `npm run eject`
+4. Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Available Scripts
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Office Locations
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The calculator supports tax calculation for the following office locations:
 
-## Learn More
+**US Locations**: Austin, Kirkland, Los Angeles (Chatsworth & Del Rey), Orlando, Redwood Shores
+**Canadian Locations**: Edmonton, Montreal, Vancouver, Vancouver - Great Northern Way, Victoria  
+**European Locations**: Helsinki, Lyon, Madrid, Cologne, Galway
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Contributing
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This is an internal EA tool. For questions or issues, please contact the development team.
+
+## License
+
+Internal EA project - All rights reserved.

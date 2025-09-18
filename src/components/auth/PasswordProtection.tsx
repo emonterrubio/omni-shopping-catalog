@@ -15,7 +15,7 @@ export function PasswordProtection({ children, correctPassword }: PasswordProtec
   useEffect(() => {
     // Check if user is already authenticated (only in browser)
     if (typeof window !== 'undefined') {
-      const authStatus = localStorage.getItem('omni-shop-auth');
+      const authStatus = localStorage.getItem('ea-omni-rto-calculator-auth');
       if (authStatus === 'true') {
         setIsAuthenticated(true);
       }
@@ -27,7 +27,7 @@ export function PasswordProtection({ children, correctPassword }: PasswordProtec
     if (password === correctPassword) {
       setIsAuthenticated(true);
       if (typeof window !== 'undefined') {
-        localStorage.setItem('omni-shop-auth', 'true');
+        localStorage.setItem('ea-omni-rto-calculator-auth', 'true');
       }
       setError('');
     } else {
@@ -39,7 +39,7 @@ export function PasswordProtection({ children, correctPassword }: PasswordProtec
   const handleLogout = () => {
     setIsAuthenticated(false);
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('omni-shop-auth');
+      localStorage.removeItem('ea-omni-rto-calculator-auth');
     }
     setPassword('');
   };
@@ -55,7 +55,7 @@ export function PasswordProtection({ children, correctPassword }: PasswordProtec
               </svg>
             </div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Omni Shop Access
+              EA RTO Calculator Access
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Enter the password to access the application

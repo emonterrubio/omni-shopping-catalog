@@ -36,7 +36,6 @@ export const miceSubsection = mouseData;
 export const keyboardsSubsection = keyboardData;
 export const combosSubsection = mouseKeyboardComboData;
 export const webcamDataExport = webcamData;
-export const backpackData: any[] = [];
 
 // Create categories based on available data
 export const categories = [
@@ -78,28 +77,3 @@ export const categories = [
   },
 ];
 
-// Create quick actions
-export const quickActions = [
-  {
-    id: 1,
-    icon: 'search',
-    title: 'Find Hardware',
-    description: 'Search for specific hardware requirements',
-  },
-  // Cart functionality removed
-  {
-    id: 4,
-    icon: 'help',
-    title: 'Get Help',
-    description: 'Contact support for assistance',
-  },
-];
-
-// Create sample eligibility data
-export const eligibilityData = {
-  department: 'Engineering',
-  role: 'Software Developer',
-  location: 'Vancouver',
-  refreshCycle: '3 years',
-  approvals: 'Manager approval required',
-};
