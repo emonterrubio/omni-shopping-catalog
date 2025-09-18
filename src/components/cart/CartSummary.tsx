@@ -4,6 +4,7 @@ import React from 'react';
 import { useCart } from '../CartContext';
 import { useCurrency } from '../CurrencyContext';
 import { calculateTax, getTaxRate } from '@/services/taxCalculation';
+import { formatCurrency } from '../../utils/currency';
 
 interface CartSummaryProps {
   selectedLocation?: string;
@@ -64,13 +65,13 @@ export function CartSummary({ selectedLocation }: CartSummaryProps) {
       <div className="space-y-4">
         <div className="flex justify-between text-sm text-gray-600">
           <span>Total items ({totalItems}):</span>
-          <span>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayTotal).toLocaleString() : displayTotal.toLocaleString()} {displayCurrency}</span>
+          <span>{formatCurrency(displayTotal, displayCurrency)}</span>
         </div>
 
         {selectedLocation && taxAmount > 0 && (
           <div className="flex justify-between text-sm text-gray-600">
             <span>Tax ({selectedLocation} - {(taxRate * 100).toFixed(3)}%):</span>
-            <span>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(taxAmount).toLocaleString() : taxAmount.toLocaleString()} {displayCurrency}</span>
+            <span>{formatCurrency(taxAmount, displayCurrency)}</span>
           </div>
         )}
 
@@ -78,7 +79,7 @@ export function CartSummary({ selectedLocation }: CartSummaryProps) {
           <div className="flex justify-between text-lg font-semibold text-gray-900">
             <span>Total Cost:</span>
             <div className="text-right">
-              <div>${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(finalTotal).toLocaleString() : finalTotal.toLocaleString()} {displayCurrency}</div>
+              <div>{formatCurrency(finalTotal, displayCurrency)}</div>
             </div>
           </div>
         </div>
@@ -94,7 +95,7 @@ export function CartSummary({ selectedLocation }: CartSummaryProps) {
                   <span className="truncate" title={item.name}>
                     {item.name.length > 20 ? `${item.name.substring(0, 22)}...` : item.name} × {item.quantity}
                   </span>
-                  <span className="font-bold">${currency === 'CAD' || currency === 'EUR' ? Math.round(itemPrice * item.quantity).toLocaleString() : (itemPrice * item.quantity).toLocaleString()} {currency}</span>
+                  <span className="font-bold">{formatCurrency(itemPrice * item.quantity, currency)}</span>
                 </div>
               );
             })}

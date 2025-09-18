@@ -6,6 +6,7 @@ import { ProductCardProps } from "@/types/ProductCardProps";
 import { useCart } from "@/components/CartContext";
 import { useCurrency } from "@/components/CurrencyContext";
 import { QuantityInput } from "./QuantityInput";
+import { formatCurrency } from "../../utils/currency";
 import Link from "next/link";
 
 const PLACEHOLDER_IMAGE = "https://placehold.co/128x128?text=No+Image";
@@ -117,7 +118,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           <div className="flex items-center justify-between py-2">
             {/* Price */}
             <div className="text-xl font-bold text-gray-900">
-              ${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice).toLocaleString() : displayPrice.toLocaleString()}<span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
+              {formatCurrency(displayPrice, displayCurrency)}
             </div>
             
             {/* Quantity Input */}

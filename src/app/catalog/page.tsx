@@ -185,7 +185,7 @@ export default function CatalogPage() {
         {/* RTO Notice Banner */}
         <div className="bg-yellow-50 border border-yellow-200 rounded-md text-sm text-gray-600 p-4 my-4">
           <p>
-            This site is created as a resource for RTO in estimating hardware costs for RTO. Equipment and pricing are based on North America general standards for a secondary machine or desk monitor and peripherals setup. Please contact your local Site IT Manager to understand available equipment stock and if there is available equipment on site that may be repurposed.
+          This site is created as a resource for RTO to estimate hardware costs. Equipment and pricing are based on North America general standards for a secondary machine or desk monitor and peripherals setup. All prices are indicative. Please contact your local Site IT Manager to understand available equipment stock and if there is available equipment on site that may be repurposed.
           </p>
         </div>
       </div>

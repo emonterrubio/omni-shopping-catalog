@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ShoppingCart } from 'lucide-react';
 import { useCart } from '../CartContext';
 import { useCurrency } from '../CurrencyContext';
+import { formatCurrency } from '../../utils/currency';
 
 interface ProductInfoPanelProps {
   brand: string;
@@ -75,7 +76,7 @@ export function ProductInfoPanel({
       </div>
       {/* price */}
       <div className="space-y-1">
-        <div className="text-2xl lg:text-3xl font-regular">${displayPrice ? (displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice).toLocaleString() : displayPrice.toLocaleString()) : '0'}<span className="text-sm lg:text-base font-normal text-gray-500"> {displayCurrency}</span></div>
+        <div className="text-2xl lg:text-3xl font-regular">{formatCurrency(displayPrice || 0, displayCurrency)}</div>
       </div>
       {/* Description */}
       <div className="text-base text-gray-800 leading-snug">

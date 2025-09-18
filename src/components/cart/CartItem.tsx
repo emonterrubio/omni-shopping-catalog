@@ -6,6 +6,7 @@ import { Trash2 } from 'lucide-react';
 import { useCart, CartItem as CartItemType } from '../CartContext';
 import { useCurrency } from '../CurrencyContext';
 import { QuantityInput } from '../ui/QuantityInput';
+import { formatCurrency } from '../../utils/currency';
 
 interface CartItemProps {
   item: CartItemType;
@@ -78,8 +79,7 @@ export function CartItem({ item }: CartItemProps) {
           />
           <div className="text-right">
             <div className="text-lg font-semibold text-gray-900">
-              ${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice * item.quantity).toLocaleString() : (displayPrice * item.quantity).toLocaleString()}
-              <span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
+              {formatCurrency(displayPrice * item.quantity, displayCurrency)}
             </div>
           </div>
         </div>
@@ -116,8 +116,7 @@ export function CartItem({ item }: CartItemProps) {
 
         <div className="text-right">
           <div className="text-lg font-semibold text-gray-900">
-            ${displayCurrency === 'CAD' || displayCurrency === 'EUR' ? Math.round(displayPrice * item.quantity).toLocaleString() : (displayPrice * item.quantity).toLocaleString()}
-            <span className="text-sm font-normal text-gray-500"> {displayCurrency}</span>
+            {formatCurrency(displayPrice * item.quantity, displayCurrency)}
           </div>
         </div>
 
